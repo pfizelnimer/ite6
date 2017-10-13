@@ -67,10 +67,6 @@ if(isset($_POST['register_btn']))
 <br />
 <table>
   <tr>
-           <td><a href="regadmin.php"><button type="button" value="adminsign">Admin Sign Up</button></a></td>
-           
-  </tr>
-  <tr>
            <td><a href="regcustomer.php"><button type="button" value="cussign">Customer Sign Up</button></a></td>
            
   </tr>
