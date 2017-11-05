@@ -1,4 +1,4 @@
-<?php
+<!--?php
 session_start();
 //connect to database
 $db=mysqli_connect("localhost","root","","authentication");
@@ -22,7 +22,8 @@ if(isset($_POST['register_btn']))
       $_SESSION['message']="The two password do not match";   
      }
 }
-?>
+? -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,16 +31,17 @@ if(isset($_POST['register_btn']))
   <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-<div class="header">
-    <h1>Sign Up</h1>
-</div>
-<?php
+  <?php
     if(isset($_SESSION['message']))
     {
          echo "<div id='error_msg'>".$_SESSION['message']."</div>";
          unset($_SESSION['message']);
     }
 ?>
+<div class="header">
+    <h1>Sign Up</h1>
+</div>
+
 <form method="post" action="register.php">
   <table>
      <tr>
@@ -73,5 +75,34 @@ if(isset($_POST['register_btn']))
 
 </table>
 </form>
+
+<?php
+if (isset($_POST['register_btn'])){
+  
+  $username = $_POST['username'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $password2 = $_POST['password2'];
+  $username = md5($username);
+  $email = md5($email);
+  $password = md5($password);
+  $password2 = md5($password2);
+  $msg = $username . ' : ' . $email . ' : ' . $password . ' : ' . $password2;
+$fp = fopen("file1.txt", "a") or die ("can't open file");
+fwrite($fp, $msg."\n");
+fclose($fp);
+header("location:client.php");  //redirect home page
+}
+
+?>
+<?php
+    if(isset($_SESSION['message']))
+    {
+         echo "<div id='error_msg'>".$_SESSION['message']."</div>";
+         unset($_SESSION['message']);
+        
+    }
+
+?>
 </body>
 </html>

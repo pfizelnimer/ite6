@@ -1,28 +1,4 @@
-<?php
-session_start();
-//connect to database
-$db=mysqli_connect("localhost","root","","authentication");
-if(isset($_POST['cusregister_btn']))
-{
-    $cususername=mysqli_real_escape_string($db, $_POST['cususername']);
-    $cusemail=mysqli_real_escape_string($_POST['cusemail']);
-    $cuspassword=mysqli_real_escape_string($_POST['cuspassword']);
-    $cuspassword2=mysqli_real_escape_string($_POST['cuspassword2']);  
-     if($cuspassword==$cuspassword2)
-     {           //Create User
-            $cuspassword=md5($cuspassword); //hash password before storing for security purposes
-            $sql="INSERT INTO customer(username,email,password) VALUES('$cususername','$cusemail','$cuspassword')";
-            mysqli_query($db,$sql);  
-            $_SESSION['message']="You are now logged in"; 
-            $_SESSION['username']=$cususername;
-            header("location:customer.php");  //redirect home page
-    }
-    else
-    {
-      $_SESSION['message']="The two password do not match";   
-     }
-}
-?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,5 +53,33 @@ if(isset($_POST['cusregister_btn']))
 
 </table>
 </form>
+<?php
+if (isset($_POST['cusregister_btn'])){
+  
+  $cususername = $_POST['cususername'];
+  $cusemail = $_POST['cusemail'];
+  $cuspassword = $_POST['cuspassword'];
+  $cuspassword2 = $_POST['cuspassword2'];
+  $cususername = md5($cususername);
+  $cusemail = md5($cusemail);
+  $cuspassword = md5($cuspassword);
+  $cuspassword2 = md5($cuspassword2);
+  $cusmsg = $cususername . ' : ' . $cusemail . ' : ' . $cuspassword . ' : ' . $cuspassword2;
+$cusfp = fopen("file2.txt", "a") or die ("can't open file");
+fwrite($cusfp, $cusmsg."\n");
+fclose($cusfp);
+header("location:customer.php");  //redirect home page
+}
+
+?>
+<?php
+    if(isset($_SESSION['message']))
+    {
+         echo "<div id='error_msg'>".$_SESSION['message']."</div>";
+         unset($_SESSION['message']);
+        
+    }
+
+?>
 </body>
 </html>
